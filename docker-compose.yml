@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  api_a1a:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: qc_api_a1a
+    env_file:
+      - .env.a1a
+    restart: always
+    expose:
+      - "5008"
+    networks:
+      - backend
+
+  api_tac:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: qc_api_tac
+    env_file:
+      - .env.tac
+    restart: always
+    expose:
+      - "5008"
+    networks:
+      - backend
+
+  nginx:
+    image: nginx:latest
+    container_name: qc_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - api_a1a
+      - api_tac
+    restart: always
+    networks:
+      - backend
+
+networks:
+  backend:
