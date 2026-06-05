@@ -6,8 +6,12 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     container_name: qc_api_a1a
-    env_file:
-      - .env.a1a
+    environment:
+      secret_name: api_a1a_secret
+    secrets:
+      - api_a1a_secret
+    # env_file:
+    #   - .env.a1a
     restart: always
     expose:
       - "5008"
@@ -19,8 +23,12 @@ services:
       context: .
       dockerfile: docker/Dockerfile
     container_name: qc_api_tac
-    env_file:
-      - .env.tac
+    environment:
+      secret_name: api_tac_secret
+    secrets:
+      - api_tac_secret
+    # env_file:
+    #   - .env.tac
     restart: always
     expose:
       - "5008"
@@ -43,3 +51,9 @@ services:
 
 networks:
   backend:
+
+secrets:
+  api_a1a_secret:
+    file: .env.a1a
+  api_tac_secret:
+    file: .env.tac
