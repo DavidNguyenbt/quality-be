@@ -1,5 +1,3 @@
-import os
-
 import uvicorn
 from fastapi import FastAPI
 import asyncio
@@ -8,6 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import StreamingResponse
 from fastapi.openapi.utils import get_openapi
 from app.qc_dashboard.controller import qc_dashboard_router
+from app.core.config import settings
 
 def custom_openapi():
     if app.openapi_schema:
@@ -31,7 +30,7 @@ def custom_openapi():
     app.openapi_schema = openapi_schema
     return app.openapi_schema
 
-ROOT_PATH = os.getenv("ROOT_PATH", "")
+ROOT_PATH = settings.ROOT_PATH
 
 app = FastAPI(
     title="Quality API",

@@ -21,7 +21,7 @@ def load_secret(secret_name):
     return result
 
 class Settings:
-    secret_name = os.getenv("SECRET_NAME")
+    secret_name = os.getenv("secret_name")
     cfg = load_secret(secret_name)
 
     APP_NAME = cfg.get("APP_NAME", "FastAPI")
@@ -34,5 +34,6 @@ class Settings:
     DB_TRUST_SERVER_CERTIFICATE = cfg.get("DB_TRUST_SERVER_CERTIFICATE")
     IMAGE_URL = cfg.get("IMAGE_URL")
     MESSAGE: str = ''
+    ROOT_PATH = cfg.get("ROOT_PATH", "")
 
 settings = Settings()
