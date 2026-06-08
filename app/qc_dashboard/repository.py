@@ -29,6 +29,8 @@ class ParamConfigRepository:
         """Thực thi query và trả về tất cả các result set"""
         results = []
         settings.MESSAGE = ''
+        # print(f"Connected to database : {self.connection_string}")  # Log kết nối để debug
+        # print(f"Executing query: {query}")  # Log query để debug
         try:
             with self.connect() as conn:
                 with conn.cursor() as cursor:
