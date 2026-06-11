@@ -21,7 +21,7 @@ def load_secret(secret_name):
     return result
 
 class Settings:
-    secret_name = os.getenv("secret_name")
+    secret_name = os.getenv("path")
     cfg = load_secret(secret_name)
 
     APP_NAME = cfg.get("APP_NAME", "FastAPI")

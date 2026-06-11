@@ -7,9 +7,9 @@ services:
       dockerfile: docker/Dockerfile
     container_name: qc_api_a1a
     environment:
-      secret_name: api_a1a_secret
+      path: a1a
     secrets:
-      - api_a1a_secret
+      - a1a
     # env_file:
     #   - .env.a1a
     restart: always
@@ -24,9 +24,9 @@ services:
       dockerfile: docker/Dockerfile
     container_name: qc_api_tac
     environment:
-      secret_name: api_tac_secret
+      path: tac
     secrets:
-      - api_tac_secret
+      - tac
     # env_file:
     #   - .env.tac
     restart: always
@@ -53,7 +53,7 @@ networks:
   backend:
 
 secrets:
-  api_a1a_secret:
+  a1a:
     file: .env.a1a
-  api_tac_secret:
+  tac:
     file: .env.tac
