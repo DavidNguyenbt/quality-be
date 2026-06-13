@@ -600,20 +600,20 @@ class ParamConfigRepository:
                             COUNT(m2.DEFECT) as DEFECT,
                             m2.DefectVN as DefectVN, 
                             m2.DefectEN as DefectEN, 
-                            m3.TOTAL_QTY,
+                            m2.InsQty TOTAL_QTY,
                             CAST(
-                            COUNT(m2.DEFECT) * 100.0 / NULLIF(SUM(m3.TOTAL_QTY), 0)
+                            m3.DEFECT * 100.0 / NULLIF(m2.InsQty, 0)
                             AS DECIMAL(10,2)
                             ) AS DEFECT_RATE
                             FROM #Merge2 m2
                             LEFT JOIN (
-                                SELECT FacLine, Style, Operation, SUM(InsQty) as TOTAL_QTY, COUNT(DefectCode) as DEFECT FROM #Merge2
+                                SELECT FacLine, Style, Operation, COUNT(DefectCode) as DEFECT FROM #Merge2
                                 GROUP BY FacLine, Style, Operation
                             ) m3 ON m3.FacLine=m2.FacLine AND m3.Style=m2.Style AND m3.Operation= m2.Operation
 
                             WHERE m2.CTQ = 1 
                             Group by 
-                            m2.FacLine, m2.Style, m2.Operation, m2.DefectVN ,m2.DefectEN, m3.TOTAL_QTY
+                            m2.FacLine, m2.Style, m2.Operation, m2.DefectVN ,m2.DefectEN, m2.InsQty,m3.DEFECT
                             Order by m2.FacLine, m2.Style, m2.Operation
 
                             DROP TABLE #Merge2;
@@ -696,22 +696,22 @@ class ParamConfigRepository:
                             COUNT(m2.DEFECT) as DEFECT,
                             m2.DefectVN as DefectVN, 
                             m2.DefectEN as DefectEN, 
-                            m3.TOTAL_QTY,
+                            m2.InsQty TOTAL_QTY,
                             CAST(
-                            COUNT(m2.DEFECT) * 100.0 / NULLIF(SUM(m3.TOTAL_QTY), 0)
+                            m3.DEFECT * 100.0 / NULLIF(m2.InsQty, 0)
                             AS DECIMAL(10,2)
                             ) AS DEFECT_RATE
                             FROM #Merge2 m2
                             LEFT JOIN (
-                                SELECT FacLine, Style, Operation, SUM(InsQty) as TOTAL_QTY, COUNT(DefectCode) as DEFECT FROM #Merge2
+                                SELECT FacLine, Style, Operation, COUNT(DefectCode) as DEFECT FROM #Merge2
                                 GROUP BY FacLine, Style, Operation
                             ) m3 ON m3.FacLine=m2.FacLine AND m3.Style=m2.Style AND m3.Operation= m2.Operation
 
                             WHERE m2.CTQ = 1 AND m2.FacLine IN ({placeholders})
                             Group by 
-                            m2.FacLine, m2.Style, m2.Operation, m2.DefectVN ,m2.DefectEN, m3.TOTAL_QTY
+                            m2.FacLine, m2.Style, m2.Operation, m2.DefectVN ,m2.DefectEN, m2.InsQty,m3.DEFECT
                             Order by m2.FacLine, m2.Style, m2.Operation
-
+                            
                             DROP TABLE #Merge2;
                             DROP TABLE #Merge1;
                             DROP TABLE #TLSReport;
